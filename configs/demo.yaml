@@ -1,0 +1,26 @@
+start: "2022-01-01"
+end: "2025-12-26"
+
+rebalance_freq: 5
+lookback_mom: 20
+lookback_vol: 60
+topk_per_class: 3
+softmax_temp: 0.8
+min_weight: 0.01
+
+# 回测字段名（对应你 demo_data/prices.csv）
+buy_price: "open"
+sell_price: "close"
+adj_factor_col: "adj_factor"
+close_price_col: "close"
+
+rebalance_threshold: 0.005
+transaction_cost: [0.001, 0.001]   # [buy_cost, sell_cost]
+initial_capital: 1.0
+slippage: 0.0
+
+class_weights:
+  EQUITY_CORE: 0.45
+  EQUITY_SAT:  0.20
+  BOND:        0.25
+  COMMODITY:   0.10
