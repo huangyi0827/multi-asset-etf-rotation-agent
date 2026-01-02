@@ -3,10 +3,6 @@ from typing import Any, Dict, List, Optional
 
 @dataclass
 class BParams:
-    """
-    对齐 PKLemon.py 中 B 参数调度器输出字段：
-    confidence/regime/caps/shrink_lambda/risk_aversion/core_sat_spread/topn/raw
-    """
     confidence: float = 0.0
     regime: str = "neutral"  # risk_on | neutral | risk_off
     caps: Dict[str, float] = field(default_factory=lambda: {"EQUITY": 0.85, "BOND": 0.85, "COMMODITY": 0.40})
