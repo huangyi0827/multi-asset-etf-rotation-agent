@@ -205,3 +205,11 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+vendor/GeneralBacktest/db_config.py
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+outputs/
+vendor/GeneralBacktest/db_config.py
+vendor/**/__pycache__/
