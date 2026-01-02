@@ -36,13 +36,41 @@ def main():
     agent_cfg = PKLemonPublicConfig(
         start=cfg["start"],
         end=cfg["end"],
+
+        # rebalance + public surrogate signals
         rebalance_freq=int(cfg.get("rebalance_freq", 5)),
         lookback_mom=int(cfg.get("lookback_mom", 20)),
         lookback_vol=int(cfg.get("lookback_vol", 60)),
-        topk_per_class=int(cfg.get("topk_per_class", 3)),
-        softmax_temp=float(cfg.get("softmax_temp", 0.8)),
+
+        # within-class softmax temperature & weight cleanup
+        within_temperature=float(cfg.get("within_temperature", cfg.get("softmax_temp", 0.8))),
         min_weight=float(cfg.get("min_weight", 0.01)),
+
+        # PKLemon-aligned knobs
+        shrink_lambda=float(cfg.get("shrink_lambda", 0.28)),
+        no_trade_band=float(cfg.get("no_trade_band", 0.02)),
+
+        cap_equity=float(cfg.get("cap_equity", 0.85)),
+        cap_bond=float(cfg.get("cap_bond", 0.85)),
+        cap_commodity=float(cfg.get("cap_commodity", 0.40)),
+        cap_lo=float(cfg.get("cap_lo", 0.0)),
+        cap_hi=float(cfg.get("cap_hi", 1.0)),
+
+        risk_aversion_base=float(cfg.get("risk_aversion_base", 1.0)),
+        risk_aversion_lo=float(cfg.get("risk_aversion_lo", 0.5)),
+        risk_aversion_hi=float(cfg.get("risk_aversion_hi", 3.0)),
+
+        core_sat_spread_base=float(cfg.get("core_sat_spread_base", 0.0)),
+        core_sat_spread_lo=float(cfg.get("core_sat_spread_lo", -0.5)),
+        core_sat_spread_hi=float(cfg.get("core_sat_spread_hi", 0.5)),
+
+        base_bond_n=int(cfg.get("base_bond_n", 3)),
+        base_commodity_n=int(cfg.get("base_commodity_n", 3)),
+        topn_lo=int(cfg.get("topn_lo", 1)),
+        topn_hi=int(cfg.get("topn_hi", 8)),
+
         class_weights=dict(cfg.get("class_weights", {})) or None,
+        audit_dir=str(outdir / "audit"),
     )
     agent = PKLemonPublicAgent(agent_cfg)
     weights_df = agent.generate_weights(universe, prices)
@@ -101,15 +129,11 @@ def main():
         except Exception as e:
             print("print_metrics() failed:", e)
 
-    if hasattr(bt, "plot_all"):
-        try:
-            bt.plot_all(save_path=str(outdir))
-        except TypeError:
-            # maybe plot_all() has different signature
-            try:
-                bt.plot_all()
-            except Exception as e:
-                print("plot_all() failed:", e)
+    if cfg.get("enable_plots", False) and hasattr(bt, "plot_all"):
+    try:
+        bt.plot_all(save_path=str(outdir))
+    except Exception as e:
+        print("plot_all() failed:", e)
         except Exception as e:
             print("plot_all() failed:", e)
 

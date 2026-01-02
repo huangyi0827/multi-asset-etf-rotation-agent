@@ -24,3 +24,5 @@ class_weights:
   EQUITY_SAT:  0.20
   BOND:        0.25
   COMMODITY:   0.10
+
+enable_plots: false
