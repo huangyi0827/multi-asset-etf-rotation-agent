@@ -1,4 +1,13 @@
 """
+
+from pathlib import Path
+
+def _resolve_savepath(save_path: str, filename: str) -> str:
+    p = Path(save_path)
+    if p.suffix.lower() in ['.png','.jpg','.jpeg','.pdf','.svg','.webp']:
+        return str(p)
+    p.mkdir(parents=True, exist_ok=True)
+    return str(p / filename)
 通用量化策略回测框架
 支持灵活的调仓时间、向量化计算、丰富的性能指标和可视化功能
 """
@@ -880,7 +889,7 @@ class GeneralBacktest:
         plt.tight_layout()
         
         if save_path:
-            plt.savefig(save_path, bbox_inches='tight')
+            plt.savefig(_resolve_savepath(save_path, 'plot_01.png'), bbox_inches='tight')
             print(f"Plot saved to {save_path}")
         plt.show()
 
@@ -954,7 +963,7 @@ class GeneralBacktest:
         fig.tight_layout()
         
         if save_path:
-            plt.savefig(save_path, bbox_inches='tight')
+            plt.savefig(_resolve_savepath(save_path, 'plot_02.png'), bbox_inches='tight')
         plt.show()
 
     def plot_drawdown(self, figsize: Tuple[int, int] = (12, 6)) -> None:
@@ -1045,7 +1054,7 @@ class GeneralBacktest:
         
         plt.tight_layout()
         if save_path:
-            plt.savefig(save_path, bbox_inches='tight')
+            plt.savefig(_resolve_savepath(save_path, 'plot_03.png'), bbox_inches='tight')
         plt.show()
 
     def plot_metrics_table(self, save_path: str = None) -> None:
@@ -1133,7 +1142,7 @@ class GeneralBacktest:
         plt.tight_layout()
         
         if save_path:
-            plt.savefig(save_path, bbox_inches='tight', dpi=300)
+            plt.savefig(_resolve_savepath(save_path, 'plot_04.png'), bbox_inches='tight', dpi=300)
             print(f"Metrics table saved to {save_path}")
         plt.show()
 
@@ -1278,7 +1287,7 @@ class GeneralBacktest:
         
         plt.tight_layout()
         if save_path:
-            plt.savefig(save_path, bbox_inches='tight')
+            plt.savefig(_resolve_savepath(save_path, 'plot_05.png'), bbox_inches='tight')
         plt.show()
     
     def plot_turnover_analysis(self, figsize: Tuple[int, int] = (12, 6), save_path: str = None) -> None:
@@ -1313,7 +1322,7 @@ class GeneralBacktest:
         
         plt.tight_layout()
         if save_path:
-            plt.savefig(save_path, bbox_inches='tight')
+            plt.savefig(_resolve_savepath(save_path, 'plot_06.png'), bbox_inches='tight')
         plt.show()
     
     def plot_dashboard(self, save_path: str = None) -> None:
@@ -1455,7 +1464,7 @@ class GeneralBacktest:
         plt.tight_layout(rect=[0, 0, 1, 0.96])
         
         if save_path:
-            plt.savefig(save_path, bbox_inches='tight')
+            plt.savefig(_resolve_savepath(save_path, 'plot_07.png'), bbox_inches='tight')
             print(f"Dashboard saved to {save_path}")
         plt.show()
 
@@ -1464,4 +1473,3 @@ class GeneralBacktest:
         Comprehensive Dashboard (Alias for plot_dashboard)
         """
         self.plot_dashboard(save_path=save_path)
-
