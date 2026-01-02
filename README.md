@@ -33,25 +33,15 @@ pip install -r requirements.txt
 python scripts/run_demo.py --config configs/demo.yaml
 ```
 ### 3) Outputs
+Generated under `outputs/`:
+- `weights.csv` : rebalance-day portfolio weights
+- `nav_series.csv` : NAV series
+- `positions_df.csv` : positions by date
+- `trade_records.csv` : trades
+- `turnover_records.csv` : turnover records
+- `benchmark_nav.csv` : benchmark NAV (EqualWeight)
+- `benchmark_equal_weight.csv` : benchmark weights file
+- `audit/audit.jsonl` : per-rebalance audit trail (features/params/selected/weights)
 
-Generated under outputs/:
-- weights.csv : rebalance-day portfolio weights
-
-- nav_series.csv : NAV series
-
-- positions_df.csv : positions by date
-
-- trade_records.csv : trades
-
-- turnover_records.csv : turnover records
-
-- benchmark_nav.csv : benchmark NAV (EqualWeight)
-
-- benchmark_equal_weight.csv : benchmark weights file
-
-- audit/audit.jsonl : per-rebalance audit trail (features/params/selected/weights)
-
-Notes
-
-Public demo metrics validate the pipeline and execution logic and are not representative of the private full version.
-
+## Notes
+Public demo metrics validate the **pipeline and execution logic** and are not representative of the private full version.
