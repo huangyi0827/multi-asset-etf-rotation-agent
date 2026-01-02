@@ -27,7 +27,7 @@ class RouterConfig:
     topn_lo: int = 1
     topn_hi: int = 8
 
-    # base values (对齐 StrategyConfig 命名)
+    # base values 
     cap_equity: float = 0.85
     cap_bond: float = 0.85
     cap_commodity: float = 0.40
@@ -43,7 +43,7 @@ class RouterConfig:
 
 class PublicRuleRouter:
     """
-    公开版：用规则模拟“B: 参数调度器”，但输出字段与 PKLemon 保持一致：
+    用规则模拟“LLM B: 参数调度器”，输出字段与完全体一致：
     confidence/regime/caps/shrink_lambda/risk_aversion/core_sat_spread/topn/rationale
     """
     def __init__(self, cfg: RouterConfig):
@@ -51,7 +51,6 @@ class PublicRuleRouter:
 
     def get_B_params(self, asof_date: str, feats: Dict[str, Any]) -> Dict[str, Any]:
         """
-        feats 建议包含（公开版可简化）：
         - equity_mom: float (近N日收益)
         - equity_vol: float (近N日波动)
         """
