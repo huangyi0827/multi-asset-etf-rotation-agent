@@ -22,6 +22,11 @@ Arena verification links (keep as-is):
 
 ## Quickstart (public demo)
 
+### One-liner
+```bash
+python -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt && python scripts/run_demo.py --config configs/demo.yaml
+```
+
 ### 1) Setup
 ```bash
 python -m venv .venv
