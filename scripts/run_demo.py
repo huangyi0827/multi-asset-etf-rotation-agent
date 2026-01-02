@@ -135,19 +135,6 @@ def main():
     json.dump(serializable, open(json_path, "w"), ensure_ascii=False, indent=2)
 
     # 5) Optional: call plotting / metrics if methods exist
-    if hasattr(bt, "print_metrics"):
-        try:
-            bt.print_metrics()
-        except Exception as e:
-            print("print_metrics() failed:", e)
-
-    if cfg.get("enable_plots", False) and hasattr(bt, "plot_all"):
-    try:
-        bt.plot_all(save_path=str(outdir))
-    except Exception as e:
-        print("plot_all() failed:", e)
-        except Exception as e:
-            print("plot_all() failed:", e)
 
     print("✅ Done.")
     print("Weights saved to:", weights_path)

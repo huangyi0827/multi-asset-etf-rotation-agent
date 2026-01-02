@@ -116,7 +116,11 @@ class PKLemonPublicAgent:
         self.audit = AuditLogger(audit_dir=cfg.audit_dir)
 
     def _pivot_close(self, prices: pd.DataFrame) -> pd.DataFrame:
+        # IMPORTANT: unify code dtype as str across the whole pipeline
+        prices = prices.copy()
+        prices["code"] = prices["code"].astype(str)
         px = prices.pivot(index="date", columns="code", values="close").sort_index()
+        px.columns = px.columns.astype(str)
         return px.ffill()
 
     def _compute_features(self, px_close: pd.DataFrame, asof: pd.Timestamp) -> Dict[str, Any]:
