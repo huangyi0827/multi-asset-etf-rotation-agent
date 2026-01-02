@@ -11,7 +11,7 @@ It keeps the **same architecture & interfaces** as the private full version, whi
 
 ## Architecture
 Public repo implements the reproducible pipeline; the private full version replaces the router with LLM-meta and uses licensed data.
-![Architecture](docs/PKLemon.png)
+![Architecture](docs/pklemon.png)
 
 
 ## Private full version (verified, not published)
@@ -85,6 +85,17 @@ Backtest assumptions:
 - `rebalance_threshold`: ignore trades below this weight change
 - `slippage`: additional slippage (decimal)
 
+## Optional: regenerate demo data
+The repo ships with fixed `demo_data/*.csv` for reproducibility.  
+If you want to regenerate synthetic demo data locally:
+```bash
+python scripts/generate_demo_data.py
+```
+
+## Reporting (WIP)
+A minimal summary script is provided: `python -m src.reporting.summary`.
+
+
 ## How to verify
 - Reproduce the run using the one-liner / Quickstart command above.
 - Inspect `outputs/audit/audit.jsonl` to audit each rebalance: features → params → selections → final weights.
@@ -92,7 +103,9 @@ Backtest assumptions:
 
 
 ## Notes
-Public demo metrics validate the **pipeline and execution logic** and are not representative of the private full version.
+- Public demo metrics validate the **pipeline and execution logic** and are not representative of the private full version.
+- `.env.example` is reserved for **future database/API integrations** (not required for the public demo).
+
 
 ## Disclaimer
 For research/education only. Not investment advice.
