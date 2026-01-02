@@ -213,3 +213,4 @@ __pycache__/
 outputs/
 vendor/GeneralBacktest/db_config.py
 vendor/**/__pycache__/
+.vscode/
