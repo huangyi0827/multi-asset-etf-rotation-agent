@@ -1,4 +1,5 @@
 # PKLemon Public (Reproducible Pipeline)
+![CI](https://github.com/huangyi0827/multi-asset-etf-rotation-agent/actions/workflows/ci.yml/badge.svg)
 
 This repo is a **public, reproducible** version of my PKLemon-style multi-asset ETF allocation/rotation system.
 It keeps the **same architecture & interfaces** as the private full version, while using **surrogate signals + CSV demo data** for verification.
