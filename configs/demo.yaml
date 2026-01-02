@@ -26,3 +26,9 @@ class_weights:
   COMMODITY:   0.10
 
 enable_plots: false
+
+rebalance_mode: month_end
+include_first_rebalance: true
+sticky_buffer: 2
+turnover_gamma: 0.8
+shrink_cap: 0.85

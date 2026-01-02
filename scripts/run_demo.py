@@ -36,6 +36,18 @@ def main():
     agent_cfg = PKLemonPublicConfig(
         start=cfg["start"],
         end=cfg["end"],
+        warmup_days=int(cfg.get("warmup_days", 0)),
+
+        sticky_buffer=int(cfg.get("sticky_buffer", 2)),
+
+        shrink_cap=float(cfg.get("shrink_cap", 0.85)),
+
+        turnover_gamma=float(cfg.get("turnover_gamma", 0.8)),
+
+        include_first_rebalance=bool(cfg.get("include_first_rebalance", True)),
+
+        rebalance_mode=str(cfg.get("rebalance_mode", "month_end")),
+
 
         # rebalance + public surrogate signals
         rebalance_freq=int(cfg.get("rebalance_freq", 5)),
