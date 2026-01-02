@@ -15,6 +15,28 @@ from src.agent.pklemon_public_agent import PKLemonPublicAgent, PKLemonPublicConf
 def safe_mkdir(p: Path):
     p.mkdir(parents=True, exist_ok=True)
 
+def make_equal_weight_benchmark(universe, prices, rebalance_dates):
+    import pandas as pd
+
+    px = prices.copy()
+    px["code"] = px["code"].astype(str)
+    px["date"] = pd.to_datetime(px["date"])
+    codes_u = universe["code"].astype(str).unique().tolist()
+    codes_p = set(px["code"].unique().tolist())
+    codes = [c for c in codes_u if c in codes_p]
+    if len(codes) == 0:
+        return pd.DataFrame(columns=["date", "code", "weight"])
+
+    rbd = pd.to_datetime(pd.Series(rebalance_dates)).sort_values().unique()
+    w = 1.0 / len(codes)
+
+    bench = pd.DataFrame(
+        {"date": rbd.repeat(len(codes)), "code": codes * len(rbd), "weight": [w] * (len(rbd) * len(codes))}
+    )
+    return bench
+
+
+
 def main():
     import argparse
     ap = argparse.ArgumentParser()
@@ -87,12 +109,21 @@ def main():
     agent = PKLemonPublicAgent(agent_cfg)
     weights_df = agent.generate_weights(universe, prices)
 
+    rebalance_dates = weights_df["date"].drop_duplicates().sort_values().tolist()
+    bench_weights = make_equal_weight_benchmark(universe, prices, rebalance_dates)
+    bench_weights.to_csv(outdir / "benchmark_equal_weight.csv", index=False)
+
     # save weights for inspection
     weights_path = outdir / "weights.csv"
     weights_df.to_csv(weights_path, index=False)
 
     # 3) backtest (DataFrame interface)
     bt = GeneralBacktest(start_date=cfg['start'], end_date=cfg['end'])
+    prices = prices.copy()
+    prices["code"] = prices["code"].astype(str)
+    prices["date"] = pd.to_datetime(prices["date"])
+    weights_df["code"] = weights_df["code"].astype(str)
+    weights_df["date"] = pd.to_datetime(weights_df["date"])
 
     res = bt.run_backtest(
         weights_data=weights_df,
@@ -108,8 +139,8 @@ def main():
         transaction_cost=list(cfg.get("transaction_cost", [0.001, 0.001])),
         initial_capital=float(cfg.get("initial_capital", 1.0)),
         slippage=float(cfg.get("slippage", 0.0)),
-        benchmark_weights=None,
-        benchmark_name=cfg.get("benchmark_name", "Benchmark"),
+        benchmark_weights=bench_weights,
+        benchmark_name="EqualWeight"
     )
 
     # 4) Save results (generic)
