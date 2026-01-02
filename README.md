@@ -9,6 +9,11 @@ It keeps the **same architecture & interfaces** as the private full version, whi
 - Turnover controls: sticky topN + no-trade band + adaptive shrink
 - End-to-end pipeline: weights → backtest → trades/turnover → benchmark → audit logs
 
+## Architecture
+Public repo implements the reproducible pipeline; the private full version replaces the router with LLM-meta and uses licensed data.
+![Architecture](docs/architecture.png)
+
+
 ## Private full version (verified, not published)
 - The full PKLemon version includes licensed data + proprietary signals + LLM-meta routing.
 - It runs on CUFEL-Q Arena (simulated live; not real live trading) and is **continuously updated**.
