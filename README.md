@@ -11,7 +11,7 @@ It keeps the **same architecture & interfaces** as the private full version, whi
 
 ## Architecture
 Public repo implements the reproducible pipeline; the private full version replaces the router with LLM-meta and uses licensed data.
-![Architecture](docs/architecture.png)
+![Architecture](docs/PKLemon.png)
 
 
 ## Private full version (verified, not published)
