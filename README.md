@@ -25,6 +25,11 @@ Arena verification links (keep as-is):
 
 ---
 
+## TL;DR
+```bash
+python -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt && python scripts/run_demo.py --config configs/demo.yaml
+```
+
 ## Quickstart (public demo)
 
 ### One-liner
@@ -53,5 +58,41 @@ Generated under `outputs/`:
 - `benchmark_equal_weight.csv` : benchmark weights file
 - `audit/audit.jsonl` : per-rebalance audit trail (features/params/selected/weights)
 
+## Configuration (configs/demo.yaml)
+
+Time range:
+- `start`, `end`: backtest window (YYYY-MM-DD)
+
+Rebalance & signal lookbacks:
+- `rebalance_mode`: `month_end` (rebalance on month-end dates)
+- `include_first_rebalance`: whether to rebalance at the first available date
+- `rebalance_freq`: signal update step in trading days (public surrogate)
+- `lookback_mom`, `lookback_vol`: lookback windows for momentum/volatility
+
+Selection & weights:
+- `topk_per_class`: top-K ETFs selected per class
+- `softmax_temp`: within-class softmax temperature (higher → more diversified)
+- `min_weight`: drop very small weights after normalization
+- `class_weights`: strategic allocation across classes (EQUITY_CORE / EQUITY_SAT / BOND / COMMODITY)
+
+Turnover controls (PKLemon-style):
+- `sticky_buffer`: keep previously selected names for N periods to reduce churn
+- `turnover_gamma`: turnover penalty strength
+- `shrink_cap`: maximum shrinkage cap
+
+Backtest assumptions:
+- `transaction_cost`: [buy_cost, sell_cost] (0.001 = 10 bps each side)
+- `rebalance_threshold`: ignore trades below this weight change
+- `slippage`: additional slippage (decimal)
+
+## How to verify
+- Reproduce the run using the one-liner / Quickstart command above.
+- Inspect `outputs/audit/audit.jsonl` to audit each rebalance: features → params → selections → final weights.
+- Compare strategy NAV (`outputs/nav_series.csv`) vs benchmark NAV (`outputs/benchmark_nav.csv`).
+
+
 ## Notes
 Public demo metrics validate the **pipeline and execution logic** and are not representative of the private full version.
+
+## Disclaimer
+For research/education only. Not investment advice.
