@@ -22,7 +22,6 @@ Public repo implements the reproducible pipeline; the private full version repla
 Arena verification links (keep as-is):
 - Leaderboard: https://cufel.cufe.edu.cn/cufel-q/leaderboard
 - PKLemon Agent: https://cufel.cufe.edu.cn/cufel-q/agents/73
-- SanCeagent: https://cufel.cufe.edu.cn/cufel-q/agents/28
 
 ---
 
